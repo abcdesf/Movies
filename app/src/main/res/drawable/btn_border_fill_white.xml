@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!--按钮边框-->
+    <!--solid用以指定内部填充色-->
+    <solid android:color="@color/colorPrimary" />
+    <!--渐变色-->
+    <gradient
+        android:angle="0"
+        android:startColor="@color/colorWhite"
+        android:endColor="@color/colorWhite"/>
+    <corners
+        android:radius="25dp"/>
+</shape>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    &lt;!&ndash; 阴影层 &ndash;&gt;-->
+<!--    <item>-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <solid android:color="#33000000" /> &lt;!&ndash; 更浅的半透明阴影颜色 &ndash;&gt;-->
+<!--            <corners android:radius="25dp" /> &lt;!&ndash; 圆角与按钮保持一致 &ndash;&gt;-->
+<!--            <padding android:left="0.5dp" android:top="0.5dp" android:right="0.5dp" android:bottom="0.5dp" /> &lt;!&ndash; 较小的阴影偏移量 &ndash;&gt;-->
+<!--        </shape>-->
+<!--    </item>-->
+
+<!--    &lt;!&ndash; 按钮层 &ndash;&gt;-->
+<!--    <item android:top="1dp" android:left="1dp" android:right="1dp" android:bottom="1dp">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <solid android:color="#FFFFFF" /> &lt;!&ndash; 未选中时的白色背景 &ndash;&gt;-->
+<!--            <corners android:radius="25dp" /> &lt;!&ndash; 圆角半径 &ndash;&gt;-->
+<!--            <stroke android:width="0.5dp" android:color="#DDDDDD" /> &lt;!&ndash; 边框颜色和宽度 &ndash;&gt;-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--</layer-list>-->
+
+

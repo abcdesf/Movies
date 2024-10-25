@@ -1,0 +1,60 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'com.example.movies'
+    compileSdk 34
+
+
+
+    defaultConfig {
+        applicationId "com.example.movies"
+        minSdk 21
+        targetSdk 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation libs.appcompat
+    implementation libs.material
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+   implementation files('src\\main\\libs\\okhttputils-2_6_2.jar')
+
+   // implementation 'com.zhy:okhttputils:2.0.0' //glide图片加载框架
+    //glide图片加载框架
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.google.code.gson:gson:2.7'
+    //banner轮播框架
+    implementation 'io.github.youth5201314:banner:2.2.3'
+    //网络请求
+    implementation 'com.squareup.okhttp3:okhttp:4.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0'
+    implementation  'io.github.scwang90:refresh-layout-kernel:2.1.0'      //核心必须依赖
+    implementation  'io.github.scwang90:refresh-header-classics:2.1.0'    //经典刷新头
+    implementation  'io.github.scwang90:refresh-header-radar:2.1.0'       //雷达刷新头
+    implementation  'io.github.scwang90:refresh-header-falsify:2.1.0'     //虚拟刷新头
+    implementation  'io.github.scwang90:refresh-header-material:2.1.0'    //谷歌刷新头
+    implementation  'io.github.scwang90:refresh-header-two-level:2.1.0'   //二级刷新头
+    implementation  'io.github.scwang90:refresh-footer-ball:2.1.0'        //球脉冲加载
+    implementation  'io.github.scwang90:refresh-footer-classics:2.1.0'    //经典加载
+    implementation 'com.github.yalantis:ucrop:2.2.4'
+}
