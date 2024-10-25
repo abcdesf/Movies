@@ -91,7 +91,16 @@ public class Statistics {
         }
         return genreNames;
     }
-
+    public List<Double> getFavoriteBookGenreValues() {
+        if (favorite_book_genres == null) {
+            return null;
+        }
+        List<Double> genreValues = new ArrayList<>();
+        for (GenreRatio gr : favorite_book_genres) {
+            genreValues.add(gr.getRatio());
+        }
+        return genreValues;
+    }
     public void setFavorite_movie_genres(List<GenreRatio> favorite_movie_genres) {
         this.favorite_movie_genres = favorite_movie_genres;
     }

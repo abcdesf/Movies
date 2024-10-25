@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -17,13 +18,11 @@ import androidx.core.content.ContextCompat;
 import com.example.movies.R;
 
 /**
- * Created by gudd on 2024/9/27.
- * 自定义该view，主要就是为了实现将进度条设置为圆角
+ * 自定义该view，主要是实现将进度条设置为圆角并支持拖动效果。
  */
 public class CustomProgressBar extends ProgressBar {
-    private  Paint paint;
-    private  RectF rectF;
-    // 这两个颜色主要用来从resource中获取颜色，不至于将色值写死在自定义view中。
+    private Paint paint;
+    private RectF rectF;
     private int progressColorStart = 0;
     private int progressColorEnd = 0;
 
@@ -53,16 +52,15 @@ public class CustomProgressBar extends ProgressBar {
         float width = getWidth();
         float height = getHeight();
 
-
         // 设置圆角矩形区域
         rectF.set(0f, 0f, width * getProgress() / getMax(), height);
-        // 设置渐变色,两种方法，喜欢哪种用哪种。
-        /*paint.setShader(new LinearGradient(0f, 0f, width, 0f,
-            progressColorStart, progressColorEnd, Shader.TileMode.CLAMP));*/
+
+        // 设置渐变色
         paint.setShader(new LinearGradient(0f, 0f, width, 0f,
                 Color.parseColor("#03A9F4"), Color.parseColor("#2795B2"), Shader.TileMode.CLAMP));
 
-        canvas.drawRoundRect(rectF, radius, radius, paint); // 绘制圆角矩形
+        // 绘制圆角矩形进度条
+        canvas.drawRoundRect(rectF, radius, radius, paint);
     }
 
     // 设置连续动画，从左往右类似加载
@@ -71,4 +69,19 @@ public class CustomProgressBar extends ProgressBar {
         animator.setDuration(duration);
         animator.start();
     }
+
+    // 实现拖动效果
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_MOVE || event.getAction() == MotionEvent.ACTION_DOWN) {
+            float x = event.getX(); // 获取触摸的X坐标
+            int width = getWidth();
+            int newProgress = (int) ((x / width) * getMax()); // 将触摸位置转换为进度值
+            setProgress(newProgress); // 更新进度条显示
+            return true;
+        }
+        return super.onTouchEvent(event);
+    }
+
+
 }

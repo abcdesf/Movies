@@ -23,6 +23,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.movies.R;
 import com.example.movies.adapter.RecommendAdapter;
 import com.example.movies.bean.Results;
+import com.example.movies.bean.Statistics;
+import com.example.movies.dialog.CustomProgressBar;
 import com.example.movies.enums.ClassifyEnum;
 import com.example.movies.enums.TypeEnum;
 import com.example.movies.ui.activity.LoginActivity;
@@ -39,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +51,22 @@ import java.util.Map;
  */
 public class UserFragment extends Fragment {
     private Activity myActivity;
+    private TextView temp1;
+    private TextView temp2;
+    private TextView temp3;
+    private TextView temp4;
+    private TextView temp5;
+    private TextView temp6;
+    private TextView temp7;
+    CustomProgressBar customProgressBar;
+    CustomProgressBar customProgressBar1;
+    CustomProgressBar customProgressBar2;
+    CustomProgressBar customProgressBar3;
+    CustomProgressBar customProgressBar4;
+    CustomProgressBar customProgressBar5;
+    CustomProgressBar customProgressBar6;
+    private List<String> favorite_book_genres;
+    private List<Double> favorite_book_values;
     private ImageView ivPhoto;
     private ImageView ivSetting;
     private ImageView ivGo;
@@ -57,6 +76,7 @@ public class UserFragment extends Fragment {
     private LinearLayout ll_recommendation;
     private LinearLayout ll_statistics;
     private RecyclerView rv_like_list;
+
     private RecommendAdapter recommendAdapter;
     private RequestOptions headerRO = new RequestOptions().circleCrop();//圆角变换
     private RequestOptions backgroundRO = new RequestOptions().centerCrop();//会缩放图片让图片充满整个ImageView的边框,然后裁掉超出的部分
@@ -79,7 +99,22 @@ public class UserFragment extends Fragment {
         ll_recommendation = view.findViewById(R.id.ll_recommendation);
         ll_statistics = view.findViewById(R.id.ll_statistics);
         rv_like_list = view.findViewById(R.id.rv_like_list);
+        temp1 = view.findViewById(R.id.temp1);
+        temp2 = view.findViewById(R.id.temp2);
+        temp3 = view.findViewById(R.id.temp3);
+        temp4 = view.findViewById(R.id.temp4);
+        temp5 = view.findViewById(R.id.temp5);
+        temp6 = view.findViewById(R.id.temp6);
+        temp7 = view.findViewById(R.id.temp7);
+        customProgressBar = view.findViewById(R.id.customProgressBar);
+        customProgressBar1 = view.findViewById(R.id.customProgressBar2);
+        customProgressBar2 = view.findViewById(R.id.customProgressBar3);
+        customProgressBar3 = view.findViewById(R.id.customProgressBar4);
+        customProgressBar4 = view.findViewById(R.id.customProgressBar5);
+        customProgressBar5 = view.findViewById(R.id.customProgressBar6);
+        customProgressBar6 = view.findViewById(R.id.customProgressBar7);
         initView();
+        loadData();
         loadUser();
         loadPreferenceData();
         tvName.setOnClickListener(new View.OnClickListener() {
@@ -176,6 +211,49 @@ public class UserFragment extends Fragment {
 
     }
 
+    private void loadData() {
+        String url = OkHttpTool.URL + "/user/statistics/";
+        Map<String, Object> map = new HashMap<>();
+        OkHttpTool.httpGet(url, map, new OkHttpTool.ResponseCallback() {
+            @Override
+            public void onResponse(final boolean isSuccess, final int responseCode, final String response, Exception exception) {
+                myActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isSuccess && responseCode == 200) {
+                            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                            Statistics statistics = gson.fromJson(response, Statistics.class);
+                            favorite_book_genres = new ArrayList<>();
+                            favorite_book_values = new ArrayList<>();
+                            favorite_book_genres = statistics.getFavoriteBookGenreNames();
+                            favorite_book_values = statistics.getFavoriteBookGenreValues();
+                            temp1.setText(favorite_book_genres.get(0));
+                            temp2.setText(favorite_book_genres.get(1));
+                            temp3.setText(favorite_book_genres.get(2));
+                            temp4.setText(favorite_book_genres.get(3));
+                            temp5.setText(favorite_book_genres.get(4));
+                            temp6.setText(favorite_book_genres.get(5));
+                            temp7.setText(favorite_book_genres.get(6));
+                            customProgressBar.setProgress(favorite_book_values.get(0).intValue());
+                            customProgressBar1.setProgress(favorite_book_values.get(1).intValue());
+                            customProgressBar2.setProgress(favorite_book_values.get(2).intValue());
+                            customProgressBar3.setProgress(favorite_book_values.get(3).intValue());
+                            customProgressBar4.setProgress(favorite_book_values.get(4).intValue());
+                            customProgressBar5.setProgress(favorite_book_values.get(5).intValue());
+                            customProgressBar6.setProgress(favorite_book_values.get(6).intValue());
+                        } else {
+                            // 打印错误信息
+                            Log.e("statistics", "数据读取失败，响应码：" + responseCode, exception);
+                            Log.e("statistics", "数据读取失败：" + response);
+                            if (exception != null) {
+                                exception.printStackTrace();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
     private void loadUser(){
         String url = OkHttpTool.URL + "/user/profile/";
         OkHttpTool.httpGet(url, new HashMap<>(), new OkHttpTool.ResponseCallback() {
